@@ -1,0 +1,72 @@
+@import './colorMatrix.css';
+@import './fonts.css';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  list-style-type: none;
+  font-weight: 400;
+}
+
+html {
+  font-family: 'Oxanium', sans-serif;
+  color: var(--main-text-color);
+}
+
+body {
+  background-color: var(--background-color);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.header-title {
+  font-weight: 200;
+  font-size: var(--small-font-size);
+  color: var(--secondary-text-color);
+}
+
+.header-version {
+  font-weight: 700;
+  color: var(--secondary-text-color);
+  font-size: var(--tiny-font-size);
+  margin-left: 0.5rem;
+}
+
+.container {
+  margin: auto;
+  width: 95%;
+  height: 95vh;
+}
+
+.display {
+  background-color: inherit;
+  width: 100%;
+  height: 30%;
+  padding: 5rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.display__main {
+  font-size: var(--big-font-size);
+  /* font-weight: 400; */
+}
+
+.display__secondary {
+  font-size: var(--medium-font-size);
+  color: var(--secondary-text-color);
+  /* font-weight: 400; */
+}
+
+.keyboard {
+  background-color: aqua;
+  width: 100%;
+  height: 70vh;
+}
