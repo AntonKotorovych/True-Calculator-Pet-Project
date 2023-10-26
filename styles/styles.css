@@ -1,5 +1,7 @@
 @import './colorMatrix.css';
 @import './fonts.css';
+@import 'button.css';
+@import 'keyboard.css';
 
 * {
   padding: 0;
@@ -7,10 +9,10 @@
   box-sizing: border-box;
   list-style-type: none;
   font-weight: 400;
+  font-family: 'Oxanium', sans-serif;
 }
 
 html {
-  font-family: 'Oxanium', sans-serif;
   color: var(--main-text-color);
 }
 
@@ -43,6 +45,10 @@ body {
   height: 95vh;
 }
 
+.keyboard-section {
+  margin-top: 1rem;
+}
+
 .display {
   background-color: inherit;
   width: 100%;
@@ -56,17 +62,19 @@ body {
 
 .display__main {
   font-size: var(--big-font-size);
-  /* font-weight: 400; */
 }
 
 .display__secondary {
   font-size: var(--medium-font-size);
   color: var(--secondary-text-color);
-  /* font-weight: 400; */
 }
 
 .keyboard {
-  background-color: aqua;
+  background-color: inherit;
   width: 100%;
   height: 70vh;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  grid-gap: 0.5rem;
 }

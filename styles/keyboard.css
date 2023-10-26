@@ -1,0 +1,4 @@
+.digit button {
+  background-color: var(--digit-button-color);
+  color: var(--main-text-color);
+}
