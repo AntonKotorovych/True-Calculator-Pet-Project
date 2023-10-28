@@ -1,7 +1,9 @@
 :root {
   --background-color: #171a1e;
+  --operators-background-color: #1f2f34;
   --main-text-color: #f1f1f1;
   --secondary-text-color: #474f61;
   --digit-button-color: #1d2024;
   --digit-button-color-active: rgba(90, 98, 255, 0.5);
+  --erase-and-equal-color: #0ffb7e;
 }

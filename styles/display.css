@@ -1,0 +1,21 @@
+.display-section {
+  height: 30vh;
+}
+
+.display {
+  width: 95%;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.display__main {
+  font-size: var(--big-font-size);
+}
+
+.display__secondary {
+  font-size: var(--medium-font-size);
+  color: var(--secondary-text-color);
+}

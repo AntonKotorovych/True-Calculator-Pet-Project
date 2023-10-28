@@ -1,0 +1,18 @@
+.header {
+  display: flex;
+  align-items: center;
+  height: 10vh;
+}
+
+.header-title {
+  font-weight: 200;
+  font-size: var(--small-font-size);
+  color: var(--secondary-text-color);
+}
+
+.header-version {
+  font-weight: 700;
+  color: var(--secondary-text-color);
+  font-size: var(--tiny-font-size);
+  margin-left: 0.5rem;
+}
