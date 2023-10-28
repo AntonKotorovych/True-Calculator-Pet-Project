@@ -42,3 +42,7 @@
 .equal button {
   color: var(--erase-and-equal-color);
 }
+
+.equal button {
+  background-color: var(--equal-button-background-color);
+}
