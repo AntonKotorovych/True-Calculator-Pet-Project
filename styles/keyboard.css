@@ -58,3 +58,7 @@
 .equal button:active {
   background-color: var(--digit-button-color-active);
 }
+
+.digits .digit--clicked {
+  background-color: var(--digit-button-color-active);
+}
