@@ -1,13 +1,13 @@
 'use strict';
 
-const BUTTONS = document.querySelectorAll('.digits button');
+const BUTTONS = document.querySelectorAll('.keyboard li button');
 console.log(BUTTONS);
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
     if (button.value == event.key) {
-      button.classList.add('digit--clicked');
+      button.classList.add('button--clicked');
       setTimeout(() => {
-        button.classList.remove('digit--clicked');
+        button.classList.remove('button--clicked');
       }, 70);
     }
   });

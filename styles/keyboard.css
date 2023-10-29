@@ -54,11 +54,11 @@
 }
 
 .digits button:active,
-.operators button:active,
-.equal button:active {
+.operators button:active {
   background-color: var(--digit-button-color-active);
 }
 
-.digits .digit--clicked {
+.digits .button--clicked,
+.operators .button--clicked {
   background-color: var(--digit-button-color-active);
 }
