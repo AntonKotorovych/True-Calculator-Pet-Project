@@ -1,14 +1,15 @@
 .display-section {
-  height: 30vh;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .display {
-  width: 95%;
-  height: inherit;
+  padding-right: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;
 }
 
 .display__main {
