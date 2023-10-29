@@ -13,16 +13,73 @@
   <body>
     <div class="container">
       <header class="header">
-        <h1 class="header-title">True Calculator</h1>
-        <h2 class="header-version">1.0</h2>
+        <h1 class="header__title">True Calculator</h1>
+        <sup class="header__version">1.0</sup>
       </header>
       <section class="display-section">
         <div class="display">
-          <h1 class="display__main">2031</h1>
-          <h2 class="display__secondary">2000+23</h2>
+          <span class="display__main">2000+23</span>
+          <span class="display__secondary">2023</span>
         </div>
       </section>
-      <div class="keyboard"></div>
+      <section class="keyboard-section">
+        <ul class="keyboard">
+          <li class="digits erase">
+            <button type="button" value="c">C</button>
+          </li>
+          <li class="digits erase">
+            <button type="button" value="Backspace"><img src="./images/svg/backspace.svg" /></button>
+          </li>
+          <li class="digits">
+            <button type="button" value="1">1</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="2">2</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="3">3</button>
+          </li>
+          <li class="operators">
+            <button type="button" value="+">+</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="4">4</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="5">5</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="6">6</button>
+          </li>
+          <li class="operators">
+            <button type="button" value="-">-</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="7">7</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="8">8</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="9">9</button>
+          </li>
+          <li class="operators">
+            <button type="button" value="*">×</button>
+          </li>
+          <li class="digits">
+            <button type="button" value=".">.</button>
+          </li>
+          <li class="digits">
+            <button type="button" value="0">0</button>
+          </li>
+          <li class="operators equal">
+            <button type="button" value="=">=</button>
+          </li>
+          <li class="operators">
+            <button type="button" value="/">÷</button>
+          </li>
+        </ul>
+      </section>
     </div>
   </body>
 </html>

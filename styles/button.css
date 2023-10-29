@@ -1,0 +1,8 @@
+button {
+  width: 100%;
+  height: 100%;
+  border-radius: 0.5rem;
+  border-style: none;
+  font-size: var(--medium-font-size);
+  user-select: none;
+}

@@ -1,0 +1,60 @@
+.keyboard-section {
+  height: 59%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.keyboard {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  grid-template-rows: repeat(5, 20%);
+  width: 100%;
+}
+
+.digits,
+.operators {
+  margin: 0.3rem;
+}
+
+.digits button {
+  background-color: var(--digit-button-color);
+  color: var(--main-text-color);
+}
+
+.operators button {
+  background-color: var(--operators-background-color);
+  color: var(--main-text-color);
+}
+
+.digits button:hover {
+  background-color: var(--digit-button-hover-background-color);
+}
+
+.operators button:hover {
+  background-color: var(--operators-hover-background-color);
+}
+
+.erase {
+  grid-column: span 2;
+}
+
+.erase button,
+.equal button {
+  color: var(--erase-and-equal-color);
+}
+
+.equal button {
+  background-color: var(--equal-button-background-color);
+}
+
+.equal button:hover {
+  background-color: var(--equal-button-hover-background-color);
+}
+
+.digits button:active,
+.operators button:active,
+.equal button:active {
+  background-color: var(--digit-button-color-active);
+}
