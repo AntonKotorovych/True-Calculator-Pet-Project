@@ -6,25 +6,46 @@ const BUTTONS = document.querySelectorAll('.keyboard li button');
 
 const NUMBERS = document.querySelectorAll('[data-numbers]');
 
-let displayValue = 0;
-let result = '';
+let displayValue = '0';
+// let result = '';
 
-displayMain.innerHTML = displayValue;
-displaySecondary.innerHTML = result;
+displayMain.textContent = displayValue;
+// displaySecondary.textContent = result;
 
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
-    if (button.value == event.key) button.classList.add('button--clicked');
+    if (button.value === event.key || button.dataset.operators === event.key) button.classList.add('button--clicked');
   });
 });
 
 document.addEventListener('keyup', event => {
-  if (displayValue === 0) displayValue = '';
   BUTTONS.forEach(button => {
+    if (event.key === '0' && displayValue === '0') {
+      button.classList.remove('button--clicked');
+      return;
+    }
+
     if (button.dataset.numbers === event.key) {
+      if (displayValue === '0') displayValue = '';
       button.classList.remove('button--clicked');
       displayValue += button.dataset.numbers;
-      displayMain.innerHTML = displayValue;
+      displayMain.textContent = displayValue;
+    }
+
+    if (button.dataset.operators === event.key) {
+      if (
+        displayValue.endsWith('+') ||
+        displayValue.endsWith('-') ||
+        displayValue.endsWith('×') ||
+        displayValue.endsWith('÷') ||
+        displayValue.startsWith('0')
+      ) {
+        button.classList.remove('button--clicked');
+        return;
+      }
+      button.classList.remove('button--clicked');
+      displayValue += button.value;
+      displayMain.textContent = displayValue;
     }
   });
 });
