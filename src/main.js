@@ -47,6 +47,25 @@ document.addEventListener('keyup', event => {
       displayValue += button.value;
       displayMain.textContent = displayValue;
     }
+
+    if (button.dataset.deleting === event.key) {
+      if (button.dataset.deleting === 'Backspace') {
+        button.classList.remove('button--clicked');
+        displayValue = displayValue.slice(0, -1);
+        if (displayValue === '') displayValue = '0';
+        displayMain.textContent = displayValue;
+      } else {
+        button.classList.remove('button--clicked');
+        displayValue = '0';
+        displayMain.textContent = displayValue;
+      }
+    }
+    if (button.dataset.equal === event.key) {
+      button.classList.remove('button--clicked');
+      const result = eval(displayValue);
+      displayMain.textContent = result;
+      displayValue = displayMain.textContent;
+    }
   });
 });
 
