@@ -7,10 +7,8 @@ const BUTTONS = document.querySelectorAll('.keyboard li button');
 const NUMBERS = document.querySelectorAll('[data-numbers]');
 
 let displayValue = '0';
-// let result = '';
 
 displayMain.textContent = displayValue;
-// displaySecondary.textContent = result;
 
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
@@ -27,6 +25,13 @@ document.addEventListener('keyup', event => {
 
     if (button.dataset.numbers === event.key) {
       if (displayValue === '0') displayValue = '';
+      if (displayValue.endsWith('0') && displayValue.length > 2) {
+        displayValue = displayValue.replace(displayValue[displayValue.length - 1], button.dataset.numbers);
+        displayMain.textContent = displayValue;
+        button.classList.remove('button--clicked');
+        return;
+      }
+
       button.classList.remove('button--clicked');
       displayValue += button.dataset.numbers;
       displayMain.textContent = displayValue;
@@ -62,7 +67,12 @@ document.addEventListener('keyup', event => {
     }
     if (button.dataset.equal === event.key) {
       button.classList.remove('button--clicked');
-      const result = eval(displayValue);
+      const result = eval(displayValue.replace(/×/g, '*').replace(/÷/g, '/'));
+      if (result === Infinity || result === -Infinity) {
+        displayMain.textContent = 'numbers are not divisible by zero';
+        displayValue = '0';
+        return;
+      }
       displayMain.textContent = result;
       displayValue = displayMain.textContent;
     }

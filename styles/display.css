@@ -13,7 +13,7 @@
 }
 
 .display__main {
-  font-size: var(--big-font-size);
+  font-size: var(--medium-font-size);
 }
 
 .display__secondary {

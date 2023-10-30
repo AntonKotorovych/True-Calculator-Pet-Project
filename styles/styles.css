@@ -28,6 +28,12 @@ body {
   height: 100vh;
 }
 
+@media screen and (min-width: 600px) {
+  .display__main {
+    font-size: var(--large-font-size);
+  }
+}
+
 @media screen and (min-width: 800px) {
   .container {
     max-width: 80vw;
