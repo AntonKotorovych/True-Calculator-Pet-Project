@@ -15,8 +15,3 @@
 .display__main {
   font-size: var(--medium-font-size);
 }
-
-.display__secondary {
-  font-size: var(--medium-font-size);
-  color: var(--secondary-text-color);
-}
