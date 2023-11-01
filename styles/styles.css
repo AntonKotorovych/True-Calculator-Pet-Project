@@ -28,9 +28,21 @@ body {
   height: 100vh;
 }
 
-@media screen and (min-width: 600px) {
+@media screen and (min-width: 470px) {
+  .display__main {
+    font-size: var(--medium-font-size);
+  }
+  .display__secondary {
+    font-size: var(--small-font-size);
+  }
+}
+
+@media screen and (min-width: 690px) {
   .display__main {
     font-size: var(--large-font-size);
+  }
+  .display__secondary {
+    font-size: var(--medium-font-size);
   }
 }
 

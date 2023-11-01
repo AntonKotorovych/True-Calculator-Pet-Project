@@ -13,5 +13,10 @@
 }
 
 .display__main {
-  font-size: var(--medium-font-size);
+  font-size: var(--small-font-size);
 }
+
+/* .display__secondary {
+  font-size: var(--tiny-font-size);
+  color: var(--secondary-text-color);
+} */

@@ -8,6 +8,7 @@ const NUMBERS = document.querySelectorAll('[data-numbers]');
 
 let displayValue = '0';
 let isDot = false;
+let wasEqualResult = false;
 
 displayMain.textContent = displayValue;
 
@@ -18,6 +19,12 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keyup', event => {
+  if (wasEqualResult) {
+    wasEqualResult = false;
+    displayValue = '0';
+    isDot = false;
+    displayMain.textContent = displayValue;
+  }
   BUTTONS.forEach(button => {
     if (event.key === '0' && displayValue === '0') {
       button.classList.remove('button--clicked');
@@ -102,7 +109,17 @@ document.addEventListener('keyup', event => {
     }
     if (button.dataset.equal === event.key) {
       button.classList.remove('button--clicked');
-      const result = eval(displayValue.replace(/×/g, '*').replace(/÷/g, '/'));
+
+      if (
+        displayValue[displayValue.length - 1] === '+' ||
+        displayValue[displayValue.length - 1] === '-' ||
+        displayValue[displayValue.length - 1] === '×' ||
+        displayValue[displayValue.length - 1] === '÷' ||
+        displayValue[displayValue.length - 1] === '.'
+      )
+        return;
+
+      let result = eval(displayValue.replace(/×/g, '*').replace(/÷/g, '/'));
       if (result === Infinity || result === -Infinity) {
         displayMain.textContent = 'numbers are not divisible by zero';
         displayValue = '0';
@@ -110,6 +127,7 @@ document.addEventListener('keyup', event => {
       }
       displayMain.textContent = result;
       displayValue = displayMain.textContent;
+      wasEqualResult = true;
     }
   });
   if (displayValue.length >= 24) {
