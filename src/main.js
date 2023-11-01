@@ -22,10 +22,14 @@ document.addEventListener('keyup', event => {
       button.classList.remove('button--clicked');
       return;
     }
+    if (event.key === '.' && displayValue.includes('.')) {
+      button.classList.remove('button--clicked');
+      return;
+    }
 
     if (button.dataset.numbers === event.key) {
-      if (displayValue === '0') displayValue = '';
-      if (displayValue.endsWith('0') && displayValue.length > 2) {
+      if (displayValue === '0' && event.key !== '.') displayValue = '';
+      if (displayValue.endsWith('0') && displayValue.startsWith('0') && displayValue.length > 2) {
         displayValue = displayValue.replace(displayValue[displayValue.length - 1], button.dataset.numbers);
         displayMain.textContent = displayValue;
         button.classList.remove('button--clicked');
@@ -38,13 +42,7 @@ document.addEventListener('keyup', event => {
     }
 
     if (button.dataset.operators === event.key) {
-      if (
-        displayValue.endsWith('+') ||
-        displayValue.endsWith('-') ||
-        displayValue.endsWith('×') ||
-        displayValue.endsWith('÷') ||
-        displayValue.startsWith('0')
-      ) {
+      if (displayValue.endsWith('+') || displayValue.endsWith('-') || displayValue.endsWith('×') || displayValue.endsWith('÷')) {
         button.classList.remove('button--clicked');
         return;
       }
@@ -77,6 +75,14 @@ document.addEventListener('keyup', event => {
       displayValue = displayMain.textContent;
     }
   });
+  console.log(displayValue.length);
+  if (displayValue.length >= 24) {
+    BUTTONS.forEach(button => button.classList.remove('button--clicked'));
+    displayValue = displayValue.slice(0, -1);
+    displayMain.textContent = displayValue;
+    alert('you cannot add more than 24 characters');
+    return;
+  }
 });
 
 // document.addEventListener('mouseup', event => {
