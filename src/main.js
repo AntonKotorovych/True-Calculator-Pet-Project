@@ -12,6 +12,8 @@ let wasEqualResult = false;
 
 displayMain.textContent = displayValue;
 
+function calculateExpression(expression) {}
+
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
     if (button.value === event.key || button.dataset.operators === event.key) button.classList.add('button--clicked');
@@ -119,7 +121,21 @@ document.addEventListener('keyup', event => {
       )
         return;
 
-      let result = eval(displayValue.replace(/×/g, '*').replace(/÷/g, '/'));
+      let result = displayValue.replace(/×/g, '*').replace(/÷/g, '/');
+
+      let parsedSpaceString = '';
+
+      for (let i = 0; i < result.length; i++) {
+        if (result[i] !== '+' && result[i] !== '-' && result[i] !== '*' && result[i] !== '/') {
+          parsedSpaceString += result[i];
+        } else {
+          parsedSpaceString += ' ';
+          parsedSpaceString += result[i];
+          parsedSpaceString += ' ';
+        }
+        console.log(parsedSpaceString);
+      }
+
       if (result === Infinity || result === -Infinity) {
         displayMain.textContent = 'numbers are not divisible by zero';
         displayValue = '0';
