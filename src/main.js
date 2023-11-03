@@ -23,10 +23,10 @@ document.addEventListener('keydown', event => {
 document.addEventListener('keyup', event => {
   if (wasEqualResult) {
     wasEqualResult = false;
-    displayValue = '0';
     isDot = false;
     displayMain.textContent = displayValue;
   }
+
   BUTTONS.forEach(button => {
     if (event.key === '0' && displayValue === '0') {
       button.classList.remove('button--clicked');
@@ -130,20 +130,30 @@ document.addEventListener('keyup', event => {
 
         // Parse string in the comfortable array format to work with
 
-        let parsedExpression = '';
+        function splitExpressionString(expression) {
+          let counter = 0;
+          let separatedString = '';
 
-        for (let i = 0; i < expression.length; i++) {
-          if (expression[i] !== '+' && expression[i] !== '-' && expression[i] !== '*' && expression[i] !== '/') {
-            parsedExpression += expression[i];
-          } else {
-            parsedExpression += ' ';
-            parsedExpression += expression[i];
-            parsedExpression += ' ';
+          if (expression[0].startsWith('-')) {
+            counter = 1;
+            // Parsing anyway the first operand if it is negative (starts with the '-' operator)
+            separatedString += expression[0];
           }
+          for (counter; counter < expression.length; counter++) {
+            if (expression[counter] !== '+' && expression[counter] !== '-' && expression[counter] !== '*' && expression[counter] !== '/') {
+              separatedString += expression[counter];
+            } else {
+              separatedString += ' ';
+              separatedString += expression[counter];
+              separatedString += ' ';
+            }
+          }
+          return separatedString;
         }
 
-        expression = parsedExpression.split(' ');
+        const parsedExpression = splitExpressionString(expression);
 
+        const expressionArray = parsedExpression.split(' ');
         // mutating expression array with calculating results * and / operands pairs
 
         function multiplyOrDevideOperands(expression, operator) {
@@ -163,16 +173,16 @@ document.addEventListener('keyup', event => {
           }
         }
 
-        multiplyOrDevideOperands(expression, '*');
-        multiplyOrDevideOperands(expression, '/');
+        multiplyOrDevideOperands(expressionArray, '*');
+        multiplyOrDevideOperands(expressionArray, '/');
 
         // calculating result
 
-        let result = parseFloat(expression[0]);
+        let result = parseFloat(expressionArray[0]);
 
-        for (let i = 1; i < expression.length; i += 2) {
-          const operator = expression[i];
-          const operand = parseFloat(expression[i + 1]);
+        for (let i = 1; i < expressionArray.length; i += 2) {
+          const operator = expressionArray[i];
+          const operand = parseFloat(expressionArray[i + 1]);
           operator === '+' ? (result += operand) : (result -= operand);
         }
         return result;
@@ -185,6 +195,7 @@ document.addEventListener('keyup', event => {
         displayValue = '0';
         return;
       }
+
       displayMain.textContent = expressionResult;
       displayValue = displayMain.textContent;
       wasEqualResult = true;
