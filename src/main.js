@@ -23,9 +23,10 @@ document.addEventListener('keydown', event => {
 
 document.addEventListener('keyup', event => {
   if (wasEqualResult) {
-    isDot = false;
     displayMain.textContent = displayValue;
   }
+
+  if (displayValue.length < 2) isDot = false;
 
   BUTTONS.forEach(button => {
     if (event.key === '0' && displayValue === '0') {
@@ -141,6 +142,13 @@ document.addEventListener('keyup', event => {
 
       displayMain.textContent = expressionResult;
       displayValue = displayMain.textContent;
+
+      if (displayValue.includes('.')) {
+        isDot = true;
+      } else {
+        isDot = false;
+      }
+
       wasEqualResult = true;
     }
   });
