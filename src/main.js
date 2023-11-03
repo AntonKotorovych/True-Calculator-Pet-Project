@@ -120,7 +120,6 @@ document.addEventListener('keyup', event => {
         displayValue[displayValue.length - 1] === '.'
       )
         return;
-      let result = 0;
 
       // Working with results
 
