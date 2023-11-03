@@ -5,8 +5,6 @@ const displayMain = document.getElementById('displayMain');
 
 const BUTTONS = document.querySelectorAll('.keyboard li button');
 
-const NUMBERS = document.querySelectorAll('[data-numbers]');
-
 let displayValue = '0';
 let isDot = false;
 let wasEqualResult = false;
@@ -163,13 +161,3 @@ document.addEventListener('keyup', event => {
     return;
   }
 });
-
-// document.addEventListener('mouseup', event => {
-//   BUTTONS.forEach(button => {
-//     if (button.value == event.target.value) {
-//       button.classList.remove('button--clicked');
-//       displayValue = displayValue + +event.target.value;
-//       console.log(displayValue);
-//     }
-//   });
-// });
