@@ -2,7 +2,6 @@
 import calculateExpression from './calculateExpression.js';
 
 const displayMain = document.getElementById('displayMain');
-const displaySecondary = document.getElementById('displaySecondary');
 
 const BUTTONS = document.querySelectorAll('.keyboard li button');
 
@@ -11,6 +10,8 @@ const NUMBERS = document.querySelectorAll('[data-numbers]');
 let displayValue = '0';
 let isDot = false;
 let wasEqualResult = false;
+let firstOperandAfterEqual = false;
+let firstOperatorAfterEqual = false;
 
 displayMain.textContent = displayValue;
 
@@ -22,7 +23,6 @@ document.addEventListener('keydown', event => {
 
 document.addEventListener('keyup', event => {
   if (wasEqualResult) {
-    wasEqualResult = false;
     isDot = false;
     displayMain.textContent = displayValue;
   }
@@ -47,6 +47,12 @@ document.addEventListener('keyup', event => {
       return;
     }
     if (button.dataset.numbers === event.key) {
+      if (wasEqualResult) firstOperandAfterEqual = true;
+      if (wasEqualResult && firstOperandAfterEqual) {
+        wasEqualResult = false;
+        displayValue = '';
+      }
+
       if (displayValue === '0' && event.key !== '.') displayValue = '';
       if (
         displayValue.endsWith('0') &&
@@ -79,6 +85,8 @@ document.addEventListener('keyup', event => {
     }
 
     if (button.dataset.operators === event.key) {
+      if (wasEqualResult) firstOperatorAfterEqual = true;
+      if (wasEqualResult && firstOperatorAfterEqual) wasEqualResult = false;
       if (
         displayValue.endsWith('+') ||
         displayValue.endsWith('-') ||
