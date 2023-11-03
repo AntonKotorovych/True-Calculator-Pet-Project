@@ -113,6 +113,9 @@ document.addEventListener('keyup', event => {
         displayMain.textContent = displayValue;
       } else {
         isDot = false;
+        wasEqualResult = false;
+        firstOperandAfterEqual = false;
+        firstOperatorAfterEqual = false;
         button.classList.remove('button--clicked');
         displayValue = '0';
         displayMain.textContent = displayValue;
