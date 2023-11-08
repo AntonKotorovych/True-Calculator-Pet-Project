@@ -138,11 +138,11 @@ document.addEventListener('keyup', event => {
       function calculateExpression(expression) {
         // Replacing '×' and '÷' to * and /
 
-        expression = expression.replace(/×/g, '*').replace(/÷/g, '/');
+        const expressionString = expression.replace(/×/g, '*').replace(/÷/g, '/');
 
         // Parse string in the comfortable array format to work with
 
-        function splitExpressionString(expression) {
+        function prepareMathExpression(expression) {
           let counter = 0;
           let separatedString = '';
           const operators = ['+', '-', '*', '/'];
@@ -155,12 +155,10 @@ document.addEventListener('keyup', event => {
           for (counter; counter < expression.length; counter++) {
             !operators.includes(expression[counter]) ? (separatedString += expression[counter]) : (separatedString += ` ${expression[counter]} `);
           }
-          return separatedString;
+          return separatedString.split(' ');
         }
 
-        const parsedExpression = splitExpressionString(expression);
-
-        const expressionArray = parsedExpression.split(' ');
+        const mathExpressionArray = prepareMathExpression(expressionString);
         // mutating expression array with calculating results * and / operands pairs
 
         function multiplyOrDevideOperands(expression, operator) {
@@ -180,22 +178,24 @@ document.addEventListener('keyup', event => {
           }
         }
 
-        multiplyOrDevideOperands(expressionArray, '*');
-        multiplyOrDevideOperands(expressionArray, '/');
+        multiplyOrDevideOperands(mathExpressionArray, '*');
+        multiplyOrDevideOperands(mathExpressionArray, '/');
 
         // calculating result
 
-        let result = parseFloat(expressionArray[0]);
+        let result = parseFloat(mathExpressionArray[0]);
 
-        for (let i = 1; i < expressionArray.length; i += 2) {
-          const operator = expressionArray[i];
-          const operand = parseFloat(expressionArray[i + 1]);
+        for (let i = 1; i < mathExpressionArray.length; i += 2) {
+          const operator = mathExpressionArray[i];
+          const operand = parseFloat(mathExpressionArray[i + 1]);
           operator === '+' ? (result += operand) : (result -= operand);
         }
         return result;
       }
 
       const expressionResult = calculateExpression(displayValue);
+      console.log(displayValue);
+      console.log(expressionResult);
 
       if (expressionResult === Infinity || expressionResult === -Infinity) {
         displayMain.textContent = 'numbers are not divisible by zero';
