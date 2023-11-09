@@ -6,4 +6,5 @@ button {
   font-size: var(--medium-font-size);
   user-select: none;
   cursor: pointer;
+  outline: none;
 }
