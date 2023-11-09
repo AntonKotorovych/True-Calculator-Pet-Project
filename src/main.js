@@ -9,9 +9,10 @@ const BUTTONS = document.querySelectorAll('.keyboard li button');
 
 let displayValue = '0';
 let isDot = false;
-let wasEqualResult = false;
-let firstOperandAfterEqual = false;
-let firstOperatorAfterEqual = false;
+let isResultEqual = false;
+let hasFirstOperandAfterEqual = false;
+let hasFirstOperatorAfterEqual = false;
+const operators = ['+', '-', '×', '÷', '.'];
 
 displayMain.textContent = displayValue;
 
@@ -22,7 +23,7 @@ document.addEventListener('keydown', event => {
 });
 
 document.addEventListener('keyup', event => {
-  if (wasEqualResult) {
+  if (isResultEqual) {
     displayMain.textContent = displayValue;
   }
 
@@ -33,13 +34,7 @@ document.addEventListener('keyup', event => {
       button.classList.remove('button--clicked');
       return;
     }
-    if (
-      event.key === '.' &&
-      (displayValue[displayValue.length - 1] === '+' ||
-        displayValue[displayValue.length - 1] === '-' ||
-        displayValue[displayValue.length - 1] === '×' ||
-        displayValue[displayValue.length - 1] === '÷')
-    ) {
+    if (event.key === '.' && operators.includes(displayValue[displayValue.length - 1])) {
       button.classList.remove('button--clicked');
       return;
     }
@@ -48,21 +43,14 @@ document.addEventListener('keyup', event => {
       return;
     }
     if (button.dataset.numbers === event.key) {
-      if (wasEqualResult) firstOperandAfterEqual = true;
-      if (wasEqualResult && firstOperandAfterEqual) {
-        wasEqualResult = false;
+      if (isResultEqual) hasFirstOperandAfterEqual = true;
+      if (isResultEqual && hasFirstOperandAfterEqual) {
+        isResultEqual = false;
         displayValue = '';
       }
 
       if (displayValue === '0' && event.key !== '.') displayValue = '';
-      if (
-        displayValue.endsWith('0') &&
-        (displayValue[displayValue.length - 2] === '+' ||
-          displayValue[displayValue.length - 2] === '-' ||
-          displayValue[displayValue.length - 2] === '×' ||
-          displayValue[displayValue.length - 2] === '÷' ||
-          displayValue[displayValue.length - 2] === '.')
-      ) {
+      if (displayValue.endsWith('0') && operators.includes(displayValue[displayValue.length - 2])) {
         if (event.key !== '.') {
           displayValue = displayValue.slice(0, -1).concat(button.dataset.numbers);
           displayMain.textContent = displayValue;
@@ -86,15 +74,9 @@ document.addEventListener('keyup', event => {
     }
 
     if (button.dataset.operators === event.key) {
-      if (wasEqualResult) firstOperatorAfterEqual = true;
-      if (wasEqualResult && firstOperatorAfterEqual) wasEqualResult = false;
-      if (
-        displayValue.endsWith('+') ||
-        displayValue.endsWith('-') ||
-        displayValue.endsWith('×') ||
-        displayValue.endsWith('÷') ||
-        displayValue.endsWith('.')
-      ) {
+      if (isResultEqual) hasFirstOperatorAfterEqual = true;
+      if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
+      if (operators.includes(displayValue[displayValue.length - 1])) {
         button.classList.remove('button--clicked');
         return;
       }
@@ -113,9 +95,9 @@ document.addEventListener('keyup', event => {
         displayMain.textContent = displayValue;
       } else {
         isDot = false;
-        wasEqualResult = false;
-        firstOperandAfterEqual = false;
-        firstOperatorAfterEqual = false;
+        isResultEqual = false;
+        hasFirstOperandAfterEqual = false;
+        hasFirstOperatorAfterEqual = false;
         button.classList.remove('button--clicked');
         displayValue = '0';
         displayMain.textContent = displayValue;
@@ -124,14 +106,7 @@ document.addEventListener('keyup', event => {
     if (button.dataset.equal === event.key) {
       button.classList.remove('button--clicked');
 
-      if (
-        displayValue[displayValue.length - 1] === '+' ||
-        displayValue[displayValue.length - 1] === '-' ||
-        displayValue[displayValue.length - 1] === '×' ||
-        displayValue[displayValue.length - 1] === '÷' ||
-        displayValue[displayValue.length - 1] === '.'
-      )
-        return;
+      if (operators.includes(displayValue[displayValue.length - 1])) return;
 
       // Working with results
 
@@ -161,7 +136,7 @@ document.addEventListener('keyup', event => {
         const mathExpressionArray = prepareMathExpression(expressionString);
         // mutating expression array with calculating results * and / operands pairs
 
-        function multiplyOrDevideOperands(expression, operator) {
+        function multiplyOrDivideOperands(expression, operator) {
           while (expression.includes(`${operator}`)) {
             for (let i = 1; i < expression.length; i += 2) {
               const currentOperator = expression[i];
@@ -178,8 +153,8 @@ document.addEventListener('keyup', event => {
           }
         }
 
-        multiplyOrDevideOperands(mathExpressionArray, '*');
-        multiplyOrDevideOperands(mathExpressionArray, '/');
+        multiplyOrDivideOperands(mathExpressionArray, '*');
+        multiplyOrDivideOperands(mathExpressionArray, '/');
 
         // calculating result
 
@@ -212,7 +187,7 @@ document.addEventListener('keyup', event => {
         isDot = false;
       }
 
-      wasEqualResult = true;
+      isResultEqual = true;
     }
   });
   if (displayValue.length >= 24) {
