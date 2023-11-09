@@ -141,13 +141,13 @@ document.addEventListener('keyup', event => {
             for (let i = 1; i < expression.length; i += 2) {
               const currentOperator = expression[i];
               if (currentOperator === `${operator}`) {
+                let result = 0;
                 if (operator === '*') {
-                  const multiplyResult = expression[i - 1] * expression[i + 1];
-                  expression.splice(i - 1, 3, multiplyResult);
+                  result = expression[i - 1] * expression[i + 1];
                 } else if (operator === '/') {
-                  const devideResult = expression[i - 1] / expression[i + 1];
-                  expression.splice(i - 1, 3, devideResult);
+                  result = expression[i - 1] / expression[i + 1];
                 }
+                expression.splice(i - 1, 3, result);
               }
             }
           }
