@@ -3,10 +3,14 @@
 // Виписати окреми функції логіки
 // document.addEventListener('keyup', removeClasslist)
 
+// general displayed string
 const displayMain = document.getElementById('displayMain');
 
+// lists of button elements
 const BUTTONS = document.querySelectorAll('.keyboard li button');
+const NUMBERS = document.querySelectorAll('[data-component-type="number"]');
 
+// general logic variables
 let displayValue = '0';
 let isDot = false;
 let isResultEqual = false;
@@ -16,11 +20,49 @@ const operators = ['+', '-', '×', '÷', '.'];
 
 displayMain.textContent = displayValue;
 
+// Rendering click animation functions and listeners
+function pressButtonStyle(element) {
+  element.classList.add('button--clicked');
+}
+
+function releaseButtonStyle(element) {
+  element.classList.remove('button--clicked');
+}
+
+// rendering keyboard animation
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
-    if (button.value === event.key || button.dataset.operators === event.key) button.classList.add('button--clicked');
+    if (button.value === event.key || button.dataset.operators === event.key) {
+      pressButtonStyle(button);
+    }
   });
 });
+
+document.addEventListener('keyup', event => {
+  BUTTONS.forEach(button => {
+    if (button.value === event.key || button.dataset.operators === event.key) releaseButtonStyle(button);
+  });
+});
+
+// rendering mouse animation
+
+let targetElement = null;
+
+document.addEventListener('mousedown', event => {
+  if (event.target.closest('button')) {
+    targetElement = event.target.closest('button');
+    pressButtonStyle(event.target.closest('button'));
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  if (targetElement) {
+    releaseButtonStyle(targetElement);
+    targetElement = null;
+  }
+});
+
+// Main Logic
 
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
@@ -31,15 +73,12 @@ document.addEventListener('keyup', event => {
 
   BUTTONS.forEach(button => {
     if (event.key === '0' && displayValue === '0') {
-      button.classList.remove('button--clicked');
       return;
     }
     if (event.key === '.' && operators.includes(displayValue[displayValue.length - 1])) {
-      button.classList.remove('button--clicked');
       return;
     }
     if (event.key === '.' && isDot) {
-      button.classList.remove('button--clicked');
       return;
     }
     if (button.dataset.numbers === event.key) {
@@ -54,21 +93,20 @@ document.addEventListener('keyup', event => {
         if (event.key !== '.') {
           displayValue = displayValue.slice(0, -1).concat(button.dataset.numbers);
           displayMain.textContent = displayValue;
-          button.classList.remove('button--clicked');
+
           return;
         } else {
           isDot = false;
-          button.classList.remove('button--clicked');
         }
       }
       if (event.key === '.' && !isDot) {
         displayValue += button.dataset.numbers;
         displayMain.textContent = displayValue;
         isDot = true;
-        button.classList.remove('button--clicked');
+
         return;
       }
-      button.classList.remove('button--clicked');
+
       displayValue += button.dataset.numbers;
       displayMain.textContent = displayValue;
     }
@@ -77,11 +115,10 @@ document.addEventListener('keyup', event => {
       if (isResultEqual) hasFirstOperatorAfterEqual = true;
       if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
       if (operators.includes(displayValue[displayValue.length - 1])) {
-        button.classList.remove('button--clicked');
         return;
       }
       isDot = false;
-      button.classList.remove('button--clicked');
+
       displayValue += button.value;
       displayMain.textContent = displayValue;
     }
@@ -89,7 +126,7 @@ document.addEventListener('keyup', event => {
     if (button.dataset.deleting === event.key) {
       if (button.dataset.deleting === 'Backspace') {
         if (displayValue[displayValue.length - 1] === '.') isDot = false;
-        button.classList.remove('button--clicked');
+
         displayValue = displayValue.slice(0, -1);
         if (displayValue === '') displayValue = '0';
         displayMain.textContent = displayValue;
@@ -98,14 +135,12 @@ document.addEventListener('keyup', event => {
         isResultEqual = false;
         hasFirstOperandAfterEqual = false;
         hasFirstOperatorAfterEqual = false;
-        button.classList.remove('button--clicked');
+
         displayValue = '0';
         displayMain.textContent = displayValue;
       }
     }
     if (button.dataset.equal === event.key) {
-      button.classList.remove('button--clicked');
-
       if (operators.includes(displayValue[displayValue.length - 1])) return;
 
       // Working with results

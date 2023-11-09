@@ -5,4 +5,5 @@ button {
   border-style: none;
   font-size: var(--medium-font-size);
   user-select: none;
+  cursor: pointer;
 }
