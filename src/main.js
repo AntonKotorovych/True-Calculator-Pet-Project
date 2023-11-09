@@ -1,14 +1,20 @@
 'use strict';
 
 // Виписати окреми функції логіки
-// document.addEventListener('keyup', removeClasslist)
 
 // general displayed string
 const displayMain = document.getElementById('displayMain');
 
-// lists of button elements
+// lists and variables of button elements
 const BUTTONS = document.querySelectorAll('.keyboard li button');
+
 const NUMBERS = document.querySelectorAll('[data-component-type="number"]');
+const OPERATORS = document.querySelectorAll('[data-component-type="operator"]');
+
+const BACKSPACE = document.querySelector('[data-component-type="backspace"]');
+const CLEAR = document.querySelector('[data-component-type="clear"]');
+
+const EQUAL = document.querySelector('[data-component-type="enter"]');
 
 // general logic variables
 let displayValue = '0';
@@ -44,10 +50,10 @@ document.addEventListener('keyup', event => {
   });
 });
 
-// rendering mouse animation
-
+// variable for tracking current pressed and released with mouse element
 let targetElement = null;
 
+// rendering mouse animation
 document.addEventListener('mousedown', event => {
   if (event.target.closest('button')) {
     targetElement = event.target.closest('button');
