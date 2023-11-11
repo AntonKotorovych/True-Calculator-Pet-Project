@@ -226,10 +226,10 @@ function checkMaxLength() {
   return;
 }
 
-// -- KEYBOARD LOGIC --
+// initial validation function
+let isValidationReturned = false;
 
-document.addEventListener('keyup', event => {
-  // Checking variables...
+function initialValidation(value) {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
   }
@@ -241,17 +241,30 @@ document.addEventListener('keyup', event => {
     displayMain.textContent = displayValue;
   }
 
-  if (event.key === '0' && displayValue === '0') {
+  if (value === '0' && displayValue === '0') {
+    isValidationReturned = true;
     return;
   }
 
-  if (event.key === '.' && operators.includes(displayValue[displayValue.length - 1])) {
+  if (value === '.' && operators.includes(displayValue[displayValue.length - 1])) {
+    isValidationReturned = true;
     return;
   }
 
-  if (event.key === '.' && isDot) {
+  if (value === '.' && isDot) {
+    isValidationReturned = true;
     return;
   }
+
+  isValidationReturned = false;
+}
+
+// -- KEYBOARD LOGIC --
+
+document.addEventListener('keyup', event => {
+  // VALIDATION CHECK
+  initialValidation(event.key);
+  if (isValidationReturned) return;
 
   // MAX LENGTH
   if (displayValue.length >= 24) {
@@ -307,29 +320,10 @@ document.addEventListener('mousedown', event => {
 
 document.addEventListener('mouseup', () => {
   if (currentClickedButton === null) return;
-  // Checking variables...
-  if (isResultEqual) {
-    displayMain.textContent = displayValue;
-  }
 
-  if (displayValue.length < 2) isDot = false;
-
-  if (displayValue === '0' && currentClickedButton.value === '-') {
-    displayValue = currentClickedButton.value;
-    displayMain.textContent = displayValue;
-  }
-
-  if (currentClickedButton.value === '0' && displayValue === '0') {
-    return;
-  }
-
-  if (currentClickedButton.value === '.' && operators.includes(displayValue[displayValue.length - 1])) {
-    return;
-  }
-
-  if (currentClickedButton.value === '.' && isDot) {
-    return;
-  }
+  // Validation Checking
+  initialValidation(currentClickedButton.value);
+  if (isValidationReturned) return;
 
   // MAX LENGTH
   if (displayValue.length >= 24) {
