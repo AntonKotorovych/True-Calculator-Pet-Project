@@ -56,7 +56,7 @@ document.addEventListener('mouseup', () => {
   }
 });
 
-// Main Logic
+// Main Logic:
 
 // General logic variables
 let displayValue = '0';
@@ -97,6 +97,19 @@ function numbersHandler(number) {
   displayMain.textContent = displayValue;
 }
 
+// Operators handler function
+function operatorsHandler(operator) {
+  if (isResultEqual) hasFirstOperatorAfterEqual = true;
+  if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
+  if (operators.includes(displayValue[displayValue.length - 1])) {
+    return;
+  }
+  isDot = false;
+
+  displayValue += operator.textContent;
+  displayMain.textContent = displayValue;
+}
+
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -115,6 +128,8 @@ document.addEventListener('keyup', event => {
     return;
   }
 
+  // Keyboard logic:
+
   // NUMBERS
   if (NUMBERS.some(number => event.key === number.value)) {
     const currentNumber = NUMBERS.find(number => event.key === number.value);
@@ -123,17 +138,11 @@ document.addEventListener('keyup', event => {
   }
 
   // OPERATORS
-  // if (button.dataset.operators === event.key) {
-  //   if (isResultEqual) hasFirstOperatorAfterEqual = true;
-  //   if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
-  //   if (operators.includes(displayValue[displayValue.length - 1])) {
-  //     return;
-  //   }
-  //   isDot = false;
-
-  //   displayValue += button.value;
-  //   displayMain.textContent = displayValue;
-  // }
+  if (OPERATORS.some(operator => event.key === operator.value)) {
+    const currentOperator = OPERATORS.find(operator => event.key === operator.value);
+    operatorsHandler(currentOperator);
+    return;
+  }
 
   // if (button.dataset.deleting === event.key) {
   //   if (button.dataset.deleting === 'Backspace') {
