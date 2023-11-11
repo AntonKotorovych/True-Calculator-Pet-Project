@@ -224,6 +224,7 @@ function checkMaxLength() {
 // -- KEYBOARD LOGIC --
 
 document.addEventListener('keyup', event => {
+  // Checking variables...
   if (isResultEqual) {
     displayMain.textContent = displayValue;
   }
@@ -290,6 +291,7 @@ document.addEventListener('mousedown', event => {
 });
 
 document.addEventListener('mouseup', event => {
+  // Checking variables...
   if (isResultEqual) {
     displayMain.textContent = displayValue;
   }
