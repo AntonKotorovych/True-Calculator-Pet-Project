@@ -110,6 +110,15 @@ function operatorsHandler(operator) {
   displayMain.textContent = displayValue;
 }
 
+// Backspace (deleting last element) function
+function backspaceHandler() {
+  if (displayValue[displayValue.length - 1] === '.') isDot = false;
+
+  displayValue = displayValue.slice(0, -1);
+  if (displayValue === '') displayValue = '0';
+  displayMain.textContent = displayValue;
+}
+
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -144,23 +153,20 @@ document.addEventListener('keyup', event => {
     return;
   }
 
-  // if (button.dataset.deleting === event.key) {
-  //   if (button.dataset.deleting === 'Backspace') {
-  //     if (displayValue[displayValue.length - 1] === '.') isDot = false;
+  if (event.key === BACKSPACE.value) {
+    backspaceHandler();
+    return;
+  }
+  // } else {
+  //   isDot = false;
+  //   isResultEqual = false;
+  //   hasFirstOperandAfterEqual = false;
+  //   hasFirstOperatorAfterEqual = false;
 
-  //     displayValue = displayValue.slice(0, -1);
-  //     if (displayValue === '') displayValue = '0';
-  //     displayMain.textContent = displayValue;
-  //   } else {
-  //     isDot = false;
-  //     isResultEqual = false;
-  //     hasFirstOperandAfterEqual = false;
-  //     hasFirstOperatorAfterEqual = false;
-
-  //     displayValue = '0';
-  //     displayMain.textContent = displayValue;
-  //   }
+  //   displayValue = '0';
+  //   displayMain.textContent = displayValue;
   // }
+
   // if (button.dataset.equal === event.key) {
   //   if (operators.includes(displayValue[displayValue.length - 1])) return;
 
