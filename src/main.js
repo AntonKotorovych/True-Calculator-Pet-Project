@@ -56,7 +56,7 @@ document.addEventListener('mouseup', () => {
   }
 });
 
-// Main Logic:
+// ---- Main Logic ----:
 
 // General logic variables
 let displayValue = '0';
@@ -130,6 +130,99 @@ function clearHandler() {
   displayMain.textContent = displayValue;
 }
 
+// Equal results function
+function equalHandler() {
+  if (operators.includes(displayValue[displayValue.length - 1])) return;
+
+  // Working with results
+  function calculateExpression(expression) {
+    // Replacing '×' and '÷' to * and /
+    const expressionString = expression.replace(/×/g, '*').replace(/÷/g, '/');
+
+    // Parse string in the comfortable array format to work with
+    function prepareMathExpression(expression) {
+      let counter = 0;
+      let separatedString = '';
+      const operators = ['+', '-', '*', '/'];
+
+      if (expression[0].startsWith('-')) {
+        counter = 1;
+
+        // Parsing anyway the first operand if it is negative (starts with the '-' operator)
+        separatedString += expression[0];
+      }
+      for (counter; counter < expression.length; counter++) {
+        !operators.includes(expression[counter]) ? (separatedString += expression[counter]) : (separatedString += ` ${expression[counter]} `);
+      }
+      return separatedString.split(' ');
+    }
+
+    const mathExpressionArray = prepareMathExpression(expressionString);
+
+    // mutating expression array with calculating results * and / operands pairs
+    function multiplyOrDivideOperands(expression, operator) {
+      while (expression.includes(`${operator}`)) {
+        for (let i = 1; i < expression.length; i += 2) {
+          const currentOperator = expression[i];
+          if (currentOperator === `${operator}`) {
+            let result = 0;
+            if (operator === '*') {
+              result = expression[i - 1] * expression[i + 1];
+            } else if (operator === '/') {
+              result = expression[i - 1] / expression[i + 1];
+            }
+            expression.splice(i - 1, 3, result);
+          }
+        }
+      }
+    }
+
+    multiplyOrDivideOperands(mathExpressionArray, '*');
+    multiplyOrDivideOperands(mathExpressionArray, '/');
+
+    // calculating result
+    let result = parseFloat(mathExpressionArray[0]);
+
+    for (let i = 1; i < mathExpressionArray.length; i += 2) {
+      const operator = mathExpressionArray[i];
+      const operand = parseFloat(mathExpressionArray[i + 1]);
+      operator === '+' ? (result += operand) : (result -= operand);
+    }
+    return result;
+  }
+
+  const expressionResult = calculateExpression(displayValue);
+
+  if (expressionResult === Infinity || expressionResult === -Infinity) {
+    displayMain.textContent = 'numbers are not divisible by zero';
+    displayValue = '0';
+    return;
+  }
+
+  displayMain.textContent = expressionResult;
+  displayValue = displayMain.textContent;
+
+  if (displayValue.includes('.')) {
+    isDot = true;
+  } else {
+    isDot = false;
+  }
+
+  isResultEqual = true;
+}
+
+// MAX CHARACTERS CHECKING
+
+function checkMaxLength() {
+  BUTTONS.forEach(button => releaseButtonStyle(button));
+  displayValue = displayValue.slice(0, -1);
+  displayMain.textContent = displayValue;
+  alert('you cannot add more than 24 characters');
+  return;
+}
+
+// -- KEYBOARD LOGIC --
+
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -148,7 +241,11 @@ document.addEventListener('keyup', event => {
     return;
   }
 
-  // Keyboard logic:
+  // MAX LENGTH
+  if (displayValue.length >= 24) {
+    checkMaxLength();
+    return;
+  }
 
   // NUMBERS
   if (NUMBERS.some(number => event.key === number.value)) {
@@ -164,106 +261,21 @@ document.addEventListener('keyup', event => {
     return;
   }
 
+  // BACKSPACE
   if (event.key === BACKSPACE.value) {
     backspaceHandler();
     return;
   }
 
+  // CLEAR
   if (event.key === CLEAR.value) {
     clearHandler();
     return;
   }
 
-  // if (button.dataset.equal === event.key) {
-  //   if (operators.includes(displayValue[displayValue.length - 1])) return;
-
-  //   // Working with results
-
-  //   function calculateExpression(expression) {
-  //     // Replacing '×' and '÷' to * and /
-
-  //     const expressionString = expression.replace(/×/g, '*').replace(/÷/g, '/');
-
-  //     // Parse string in the comfortable array format to work with
-
-  //     function prepareMathExpression(expression) {
-  //       let counter = 0;
-  //       let separatedString = '';
-  //       const operators = ['+', '-', '*', '/'];
-
-  //       if (expression[0].startsWith('-')) {
-  //         counter = 1;
-  //         // Parsing anyway the first operand if it is negative (starts with the '-' operator)
-  //         separatedString += expression[0];
-  //       }
-  //       for (counter; counter < expression.length; counter++) {
-  //         !operators.includes(expression[counter]) ? (separatedString += expression[counter]) : (separatedString += ` ${expression[counter]} `);
-  //       }
-  //       return separatedString.split(' ');
-  //     }
-
-  //     const mathExpressionArray = prepareMathExpression(expressionString);
-  //     // mutating expression array with calculating results * and / operands pairs
-
-  //     function multiplyOrDivideOperands(expression, operator) {
-  //       while (expression.includes(`${operator}`)) {
-  //         for (let i = 1; i < expression.length; i += 2) {
-  //           const currentOperator = expression[i];
-  //           if (currentOperator === `${operator}`) {
-  //             let result = 0;
-  //             if (operator === '*') {
-  //               result = expression[i - 1] * expression[i + 1];
-  //             } else if (operator === '/') {
-  //               result = expression[i - 1] / expression[i + 1];
-  //             }
-  //             expression.splice(i - 1, 3, result);
-  //           }
-  //         }
-  //       }
-  //     }
-
-  //     multiplyOrDivideOperands(mathExpressionArray, '*');
-  //     multiplyOrDivideOperands(mathExpressionArray, '/');
-
-  //     // calculating result
-
-  //     let result = parseFloat(mathExpressionArray[0]);
-
-  //     for (let i = 1; i < mathExpressionArray.length; i += 2) {
-  //       const operator = mathExpressionArray[i];
-  //       const operand = parseFloat(mathExpressionArray[i + 1]);
-  //       operator === '+' ? (result += operand) : (result -= operand);
-  //     }
-  //     return result;
-  //   }
-
-  //   const expressionResult = calculateExpression(displayValue);
-  //   console.log(displayValue);
-  //   console.log(expressionResult);
-
-  //   if (expressionResult === Infinity || expressionResult === -Infinity) {
-  //     displayMain.textContent = 'numbers are not divisible by zero';
-  //     displayValue = '0';
-  //     return;
-  //   }
-
-  //   displayMain.textContent = expressionResult;
-  //   displayValue = displayMain.textContent;
-
-  //   if (displayValue.includes('.')) {
-  //     isDot = true;
-  //   } else {
-  //     isDot = false;
-  //   }
-
-  //   isResultEqual = true;
-  // }
-
-  // if (displayValue.length >= 24) {
-  //   BUTTONS.forEach(button => button.classList.remove('button--clicked'));
-  //   displayValue = displayValue.slice(0, -1);
-  //   displayMain.textContent = displayValue;
-  //   alert('you cannot add more than 24 characters');
-  //   return;
-  // }
+  // EQUAL
+  if (event.key === EQUAL.value) {
+    equalHandler();
+    return;
+  }
 });
