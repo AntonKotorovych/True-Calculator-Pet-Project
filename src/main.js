@@ -38,7 +38,7 @@ document.addEventListener('keyup', event => {
   });
 });
 
-// variable for tracking current pressed and released with mouse element
+// variable for tracking current pressed and released with mouse element for rendering animation
 let targetElement = null;
 
 // rendering mouse animation
@@ -211,7 +211,7 @@ function equalHandler() {
   isResultEqual = true;
 }
 
-// MAX CHARACTERS CHECKING
+// Max characters checking function
 
 function checkMaxLength() {
   BUTTONS.forEach(button => releaseButtonStyle(button));
@@ -237,6 +237,7 @@ document.addEventListener('keyup', event => {
   if (event.key === '.' && operators.includes(displayValue[displayValue.length - 1])) {
     return;
   }
+
   if (event.key === '.' && isDot) {
     return;
   }
@@ -279,3 +280,71 @@ document.addEventListener('keyup', event => {
     return;
   }
 });
+
+// -- MOUSE LOGIC --
+
+let currentClickedButton = null;
+
+document.addEventListener('mousedown', event => {
+  if (event.target.closest('button')) currentClickedButton = event.target.closest('button');
+});
+
+document.addEventListener('mouseup', event => {
+  if (isResultEqual) {
+    displayMain.textContent = displayValue;
+  }
+
+  if (displayValue.length < 2) isDot = false;
+
+  if (event.target.value === '0' && displayValue === '0') {
+    return;
+  }
+
+  if (event.target.value === '.' && operators.includes(displayValue[displayValue.length - 1])) {
+    return;
+  }
+
+  if (event.target.value === '.' && isDot) {
+    return;
+  }
+
+  // MAX LENGTH
+  if (displayValue.length >= 24) {
+    checkMaxLength();
+    return;
+  }
+
+  // NUMBERS
+  if (NUMBERS.some(number => event.target.value === number.value)) {
+    const currentNumber = NUMBERS.find(number => event.target.value === number.value);
+    numbersHandler(currentNumber);
+    return;
+  }
+
+  // OPERATORS
+  if (OPERATORS.some(operator => event.target.value === operator.value)) {
+    const currentOperator = OPERATORS.find(operator => event.target.value === operator.value);
+    operatorsHandler(currentOperator);
+    return;
+  }
+
+  // BACKSPACE
+  if (event.target.value === BACKSPACE.value) {
+    backspaceHandler();
+    return;
+  }
+
+  // CLEAR
+  if (event.target.value === CLEAR.value) {
+    clearHandler();
+    return;
+  }
+
+  // EQUAL
+  if (event.target.value === EQUAL.value) {
+    equalHandler();
+    return;
+  }
+});
+
+if (currentClickedButton !== null) currentClickedButton = null;
