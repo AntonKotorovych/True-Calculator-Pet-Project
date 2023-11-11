@@ -101,9 +101,11 @@ function numbersHandler(number) {
 function operatorsHandler(operator) {
   if (isResultEqual) hasFirstOperatorAfterEqual = true;
   if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
+
   if (operators.includes(displayValue[displayValue.length - 1])) {
     return;
   }
+
   isDot = false;
 
   displayValue += operator.textContent;
@@ -132,18 +134,18 @@ function clearHandler() {
 
 // Equal results function
 function equalHandler() {
-  if (operators.includes(displayValue[displayValue.length - 1])) return;
-
   // Working with results
   function calculateExpression(expression) {
     // Replacing '×' and '÷' to * and /
-    const expressionString = expression.replace(/×/g, '*').replace(/÷/g, '/');
+    let expressionString = expression.replace(/×/g, '*').replace(/÷/g, '/');
+    const operators = ['+', '-', '*', '/'];
+
+    if (operators.includes(expressionString[expressionString.length - 1])) expressionString = expressionString.slice(0, -1);
 
     // Parse string in the comfortable array format to work with
     function prepareMathExpression(expression) {
       let counter = 0;
       let separatedString = '';
-      const operators = ['+', '-', '*', '/'];
 
       if (expression[0].startsWith('-')) {
         counter = 1;
@@ -231,6 +233,11 @@ document.addEventListener('keyup', event => {
 
   if (displayValue.length < 2) isDot = false;
 
+  if (displayValue === '0' && event.key === '-') {
+    displayValue = '-';
+    displayMain.textContent = displayValue;
+  }
+
   if (event.key === '0' && displayValue === '0') {
     return;
   }
@@ -297,6 +304,11 @@ document.addEventListener('mouseup', event => {
   }
 
   if (displayValue.length < 2) isDot = false;
+
+  if (displayValue === '0' && currentClickedButton.value === '-') {
+    displayValue = currentClickedButton.value;
+    displayMain.textContent = displayValue;
+  }
 
   if (event.target.value === '0' && displayValue === '0') {
     return;
