@@ -119,6 +119,17 @@ function backspaceHandler() {
   displayMain.textContent = displayValue;
 }
 
+// Clear characters function
+function clearHandler() {
+  isDot = false;
+  isResultEqual = false;
+  hasFirstOperandAfterEqual = false;
+  hasFirstOperatorAfterEqual = false;
+
+  displayValue = '0';
+  displayMain.textContent = displayValue;
+}
+
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -157,15 +168,11 @@ document.addEventListener('keyup', event => {
     backspaceHandler();
     return;
   }
-  // } else {
-  //   isDot = false;
-  //   isResultEqual = false;
-  //   hasFirstOperandAfterEqual = false;
-  //   hasFirstOperatorAfterEqual = false;
 
-  //   displayValue = '0';
-  //   displayMain.textContent = displayValue;
-  // }
+  if (event.key === CLEAR.value) {
+    clearHandler();
+    return;
+  }
 
   // if (button.dataset.equal === event.key) {
   //   if (operators.includes(displayValue[displayValue.length - 1])) return;
