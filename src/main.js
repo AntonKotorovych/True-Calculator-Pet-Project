@@ -64,7 +64,7 @@ let isDot = false;
 let isResultEqual = false;
 let hasFirstOperandAfterEqual = false;
 let hasFirstOperatorAfterEqual = false;
-const operators = ['+', '-', '×', '÷', '.'];
+const operators = ['+', '-', '×', '÷'];
 
 displayMain.textContent = displayValue;
 
@@ -77,8 +77,9 @@ function numbersHandler(number) {
   }
 
   if (displayValue === '0' && number.value !== '.') displayValue = '';
+
   if (displayValue.endsWith('0') && operators.includes(displayValue[displayValue.length - 2])) {
-    if (number.key !== '.') {
+    if (number.value !== '.') {
       displayValue = displayValue.slice(0, -1).concat(number.value);
       displayMain.textContent = displayValue;
       return;
@@ -86,6 +87,7 @@ function numbersHandler(number) {
       isDot = false;
     }
   }
+
   if (number.value === '.' && !isDot) {
     displayValue += number.value;
     displayMain.textContent = displayValue;
