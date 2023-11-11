@@ -1,7 +1,5 @@
 'use strict';
 
-// Виписати окреми функції логіки
-
 // general displayed string
 const displayMain = document.getElementById('displayMain');
 
@@ -15,16 +13,6 @@ const BACKSPACE = document.querySelector('[data-component-type="backspace"]');
 const CLEAR = document.querySelector('[data-component-type="clear"]');
 
 const EQUAL = document.querySelector('[data-component-type="enter"]');
-
-// general logic variables
-let displayValue = '0';
-let isDot = false;
-let isResultEqual = false;
-let hasFirstOperandAfterEqual = false;
-let hasFirstOperatorAfterEqual = false;
-const operators = ['+', '-', '×', '÷', '.'];
-
-displayMain.textContent = displayValue;
 
 // Rendering click animation functions and listeners
 function pressButtonStyle(element) {
@@ -70,6 +58,45 @@ document.addEventListener('mouseup', () => {
 
 // Main Logic
 
+// General logic variables
+let displayValue = '0';
+let isDot = false;
+let isResultEqual = false;
+let hasFirstOperandAfterEqual = false;
+let hasFirstOperatorAfterEqual = false;
+const operators = ['+', '-', '×', '÷', '.'];
+
+displayMain.textContent = displayValue;
+
+// Numbers handler function
+function numbersHandler(number) {
+  if (isResultEqual) hasFirstOperandAfterEqual = true;
+  if (isResultEqual && hasFirstOperandAfterEqual) {
+    isResultEqual = false;
+    displayValue = '';
+  }
+
+  if (displayValue === '0' && number.value !== '.') displayValue = '';
+  if (displayValue.endsWith('0') && operators.includes(displayValue[displayValue.length - 2])) {
+    if (number.key !== '.') {
+      displayValue = displayValue.slice(0, -1).concat(number.value);
+      displayMain.textContent = displayValue;
+      return;
+    } else {
+      isDot = false;
+    }
+  }
+  if (number.value === '.' && !isDot) {
+    displayValue += number.value;
+    displayMain.textContent = displayValue;
+    isDot = true;
+    return;
+  }
+
+  displayValue += number.value;
+  displayMain.textContent = displayValue;
+}
+
 document.addEventListener('keyup', event => {
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -87,34 +114,11 @@ document.addEventListener('keyup', event => {
     if (event.key === '.' && isDot) {
       return;
     }
-    if (button.dataset.numbers === event.key) {
-      if (isResultEqual) hasFirstOperandAfterEqual = true;
-      if (isResultEqual && hasFirstOperandAfterEqual) {
-        isResultEqual = false;
-        displayValue = '';
-      }
 
-      if (displayValue === '0' && event.key !== '.') displayValue = '';
-      if (displayValue.endsWith('0') && operators.includes(displayValue[displayValue.length - 2])) {
-        if (event.key !== '.') {
-          displayValue = displayValue.slice(0, -1).concat(button.dataset.numbers);
-          displayMain.textContent = displayValue;
-
-          return;
-        } else {
-          isDot = false;
-        }
-      }
-      if (event.key === '.' && !isDot) {
-        displayValue += button.dataset.numbers;
-        displayMain.textContent = displayValue;
-        isDot = true;
-
-        return;
-      }
-
-      displayValue += button.dataset.numbers;
-      displayMain.textContent = displayValue;
+    if (event.key === NUMBERS.button.value) {
+      console.log('number');
+      numbersHandler(button);
+      return;
     }
 
     if (button.dataset.operators === event.key) {
