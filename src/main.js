@@ -259,24 +259,6 @@ document.addEventListener('keyup', event => {
     return;
   }
 
-  // NUMBERS
-
-  const currentNumber = NUMBERS.find(number => event.key === number.value);
-
-  if (currentNumber) {
-    numbersHandler(currentNumber);
-    return;
-  }
-
-  // OPERATORS
-
-  const currentOperator = OPERATORS.find(operator => event.key === operator.value);
-
-  if (currentOperator) {
-    operatorsHandler(currentOperator);
-    return;
-  }
-
   // BACKSPACE
   if (event.key === BACKSPACE.value) {
     backspaceHandler();
@@ -292,6 +274,24 @@ document.addEventListener('keyup', event => {
   // EQUAL
   if (event.key === EQUAL.value) {
     equalHandler();
+    return;
+  }
+
+  // NUMBERS
+
+  const currentNumber = NUMBERS.find(number => event.key === number.value);
+
+  if (currentNumber) {
+    numbersHandler(currentNumber);
+    return;
+  }
+
+  // OPERATORS
+
+  const currentOperator = OPERATORS.find(operator => event.key === operator.value);
+
+  if (currentOperator) {
+    operatorsHandler(currentOperator);
     return;
   }
 });
@@ -337,7 +337,23 @@ document.addEventListener('mouseup', () => {
     return;
   }
 
-  // перенести backspace clear equal сюди
+  // BACKSPACE
+  if (currentClickedButton.value === BACKSPACE.value) {
+    backspaceHandler();
+    return;
+  }
+
+  // CLEAR
+  if (currentClickedButton.value === CLEAR.value) {
+    clearHandler();
+    return;
+  }
+
+  // EQUAL
+  if (currentClickedButton.value === EQUAL.value) {
+    equalHandler();
+    return;
+  }
 
   // NUMBERS
 
@@ -354,24 +370,6 @@ document.addEventListener('mouseup', () => {
 
   if (currentOperator) {
     operatorsHandler(currentOperator);
-    return;
-  }
-
-  // BACKSPACE
-  if (currentClickedButton.value === BACKSPACE.value) {
-    backspaceHandler();
-    return;
-  }
-
-  // CLEAR
-  if (currentClickedButton.value === CLEAR.value) {
-    clearHandler();
-    return;
-  }
-
-  // EQUAL
-  if (currentClickedButton.value === EQUAL.value) {
-    equalHandler();
     return;
   }
 });
