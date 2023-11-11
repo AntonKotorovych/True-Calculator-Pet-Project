@@ -299,7 +299,7 @@ document.addEventListener('mousedown', event => {
   if (event.target.closest('button')) currentClickedButton = event.target.closest('button');
 });
 
-document.addEventListener('mouseup', event => {
+document.addEventListener('mouseup', () => {
   // Checking variables...
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -312,15 +312,15 @@ document.addEventListener('mouseup', event => {
     displayMain.textContent = displayValue;
   }
 
-  if (event.target.value === '0' && displayValue === '0') {
+  if (currentClickedButton.value === '0' && displayValue === '0') {
     return;
   }
 
-  if (event.target.value === '.' && operators.includes(displayValue[displayValue.length - 1])) {
+  if (currentClickedButton.value === '.' && operators.includes(displayValue[displayValue.length - 1])) {
     return;
   }
 
-  if (event.target.value === '.' && isDot) {
+  if (currentClickedButton.value === '.' && isDot) {
     return;
   }
 
@@ -331,33 +331,33 @@ document.addEventListener('mouseup', event => {
   }
 
   // NUMBERS
-  if (NUMBERS.some(number => event.target.value === number.value)) {
-    const currentNumber = NUMBERS.find(number => event.target.value === number.value);
+  if (NUMBERS.some(number => currentClickedButton.value === number.value)) {
+    const currentNumber = NUMBERS.find(number => currentClickedButton.value === number.value);
     numbersHandler(currentNumber);
     return;
   }
 
   // OPERATORS
-  if (OPERATORS.some(operator => event.target.value === operator.value)) {
-    const currentOperator = OPERATORS.find(operator => event.target.value === operator.value);
+  if (OPERATORS.some(operator => currentClickedButton.value === operator.value)) {
+    const currentOperator = OPERATORS.find(operator => currentClickedButton.value === operator.value);
     operatorsHandler(currentOperator);
     return;
   }
 
   // BACKSPACE
-  if (event.target.value === BACKSPACE.value) {
+  if (currentClickedButton.value === BACKSPACE.value) {
     backspaceHandler();
     return;
   }
 
   // CLEAR
-  if (event.target.value === CLEAR.value) {
+  if (currentClickedButton.value === CLEAR.value) {
     clearHandler();
     return;
   }
 
   // EQUAL
-  if (event.target.value === EQUAL.value) {
+  if (currentClickedButton.value === EQUAL.value) {
     equalHandler();
     return;
   }
