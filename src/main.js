@@ -26,7 +26,7 @@ function releaseButtonStyle(element) {
 // rendering keyboard animation
 document.addEventListener('keydown', event => {
   BUTTONS.forEach(button => {
-    if (button.value === event.key || button.dataset.operators === event.key) {
+    if (button.value === event.key) {
       pressButtonStyle(button);
     }
   });
@@ -34,7 +34,7 @@ document.addEventListener('keydown', event => {
 
 document.addEventListener('keyup', event => {
   BUTTONS.forEach(button => {
-    if (button.value === event.key || button.dataset.operators === event.key) releaseButtonStyle(button);
+    if (button.value === event.key) releaseButtonStyle(button);
   });
 });
 
@@ -43,9 +43,10 @@ let targetElement = null;
 
 // rendering mouse animation
 document.addEventListener('mousedown', event => {
-  if (event.target.closest('button')) {
-    targetElement = event.target.closest('button');
-    pressButtonStyle(event.target.closest('button'));
+  const closestButton = event.target.closest('button');
+  if (closestButton) {
+    targetElement = closestButton;
+    pressButtonStyle(closestButton);
   }
 });
 
@@ -69,18 +70,18 @@ const operators = ['+', '-', '×', '÷'];
 displayMain.textContent = displayValue;
 
 // Numbers handler function
-function numbersHandler(number) {
+function numbersHandler(element) {
   if (isResultEqual) hasFirstOperandAfterEqual = true;
   if (isResultEqual && hasFirstOperandAfterEqual) {
     isResultEqual = false;
     displayValue = '';
   }
 
-  if (displayValue === '0' && number.value !== '.') displayValue = '';
+  if (displayValue === '0' && element.value !== '.') displayValue = '';
 
   if (displayValue.endsWith('0') && operators.includes(displayValue[displayValue.length - 2])) {
-    if (number.value !== '.') {
-      displayValue = displayValue.slice(0, -1).concat(number.value);
+    if (element.value !== '.') {
+      displayValue = displayValue.slice(0, -1).concat(element.value);
       displayMain.textContent = displayValue;
       return;
     } else {
@@ -88,19 +89,19 @@ function numbersHandler(number) {
     }
   }
 
-  if (number.value === '.' && !isDot) {
-    displayValue += number.value;
+  if (element.value === '.' && !isDot) {
+    displayValue += element.value;
     displayMain.textContent = displayValue;
     isDot = true;
     return;
   }
 
-  displayValue += number.value;
+  displayValue += element.value;
   displayMain.textContent = displayValue;
 }
 
 // Operators handler function
-function operatorsHandler(operator) {
+function operatorsHandler(element) {
   if (isResultEqual) hasFirstOperatorAfterEqual = true;
   if (isResultEqual && hasFirstOperatorAfterEqual) isResultEqual = false;
 
@@ -110,7 +111,7 @@ function operatorsHandler(operator) {
 
   isDot = false;
 
-  displayValue += operator.textContent;
+  displayValue += element.textContent;
   displayMain.textContent = displayValue;
 }
 
@@ -259,15 +260,19 @@ document.addEventListener('keyup', event => {
   }
 
   // NUMBERS
-  if (NUMBERS.some(number => event.key === number.value)) {
-    const currentNumber = NUMBERS.find(number => event.key === number.value);
+
+  const currentNumber = NUMBERS.find(number => event.key === number.value);
+
+  if (currentNumber) {
     numbersHandler(currentNumber);
     return;
   }
 
   // OPERATORS
-  if (OPERATORS.some(operator => event.key === operator.value)) {
-    const currentOperator = OPERATORS.find(operator => event.key === operator.value);
+
+  const currentOperator = OPERATORS.find(operator => event.key === operator.value);
+
+  if (currentOperator) {
     operatorsHandler(currentOperator);
     return;
   }
@@ -296,10 +301,12 @@ document.addEventListener('keyup', event => {
 let currentClickedButton = null;
 
 document.addEventListener('mousedown', event => {
-  if (event.target.closest('button')) currentClickedButton = event.target.closest('button');
+  const closestButton = event.target.closest('button');
+  closestButton ? (currentClickedButton = closestButton) : (currentClickedButton = null);
 });
 
 document.addEventListener('mouseup', () => {
+  if (currentClickedButton === null) return;
   // Checking variables...
   if (isResultEqual) {
     displayMain.textContent = displayValue;
@@ -330,16 +337,22 @@ document.addEventListener('mouseup', () => {
     return;
   }
 
+  // перенести backspace clear equal сюди
+
   // NUMBERS
-  if (NUMBERS.some(number => currentClickedButton.value === number.value)) {
-    const currentNumber = NUMBERS.find(number => currentClickedButton.value === number.value);
+
+  const currentNumber = NUMBERS.find(number => currentClickedButton.value === number.value);
+
+  if (currentNumber) {
     numbersHandler(currentNumber);
     return;
   }
 
   // OPERATORS
-  if (OPERATORS.some(operator => currentClickedButton.value === operator.value)) {
-    const currentOperator = OPERATORS.find(operator => currentClickedButton.value === operator.value);
+
+  const currentOperator = OPERATORS.find(operator => currentClickedButton.value === operator.value);
+
+  if (currentOperator) {
     operatorsHandler(currentOperator);
     return;
   }
@@ -362,5 +375,3 @@ document.addEventListener('mouseup', () => {
     return;
   }
 });
-
-if (currentClickedButton !== null) currentClickedButton = null;
