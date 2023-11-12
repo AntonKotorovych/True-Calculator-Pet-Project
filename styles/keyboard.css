@@ -40,6 +40,10 @@
   grid-column: span 2;
 }
 
+.erase img {
+  -webkit-user-drag: none;
+}
+
 .erase button,
 .equal button {
   color: var(--erase-and-equal-color);
@@ -53,8 +57,7 @@
   background-color: var(--equal-button-hover-background-color);
 }
 
-.digits button:active,
-.operators button:active,
-.equal button:active {
-  background-color: var(--digit-button-color-active);
+.digits .button--clicked,
+.operators .button--clicked {
+  background-color: var(--digit-button-color-active) !important;
 }
