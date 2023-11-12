@@ -1,5 +1,7 @@
 'use strict';
 
+// БАГ С ТОЧКОЙ ИСПРАВИТЬ после equal можно ставить две точки
+
 // general displayed string
 const displayMain = document.getElementById('displayMain');
 
@@ -72,6 +74,10 @@ displayMain.textContent = displayValue;
 // Numbers handler function
 function numbersHandler(element) {
   if (isResultEqual) hasFirstOperandAfterEqual = true;
+  if (isResultEqual && !displayValue.includes('.')) {
+    isResultEqual = false;
+    isDot = true;
+  }
   if (isResultEqual && hasFirstOperandAfterEqual) {
     isResultEqual = false;
     displayValue = '';
