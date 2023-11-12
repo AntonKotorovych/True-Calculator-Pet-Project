@@ -242,7 +242,7 @@ function initialValidation(value) {
 
   if (displayValue.length < 2) isDot = false;
 
-  if (displayValue === '0' && event.key === '-') {
+  if (displayValue === '0' && value === '-') {
     displayValue = '-';
     displayMain.textContent = displayValue;
   }
