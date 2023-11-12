@@ -199,7 +199,7 @@ function equalHandler() {
       const operand = parseFloat(mathExpressionArray[i + 1]);
       operator === '+' ? (result += operand) : (result -= operand);
     }
-    return result;
+    return Number(result.toFixed(10));
   }
 
   const expressionResult = calculateExpression(displayValue);
