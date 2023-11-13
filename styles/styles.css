@@ -28,33 +28,9 @@ body {
   height: 100vh;
 }
 
-@media screen and (min-width: 440px) {
-  .display__main {
-    font-size: var(--medium-font-size);
-  }
-}
-
-@media screen and (min-width: 550px) {
-  .display__main {
-    font-size: var(--large-font-size);
-  }
-}
-
-@media screen and (min-width: 690px) {
-  .display__main {
-    font-size: var(--x-large-font-size);
-  }
-}
-
 @media screen and (min-width: 800px) {
   .container {
     max-width: 80vw;
-  }
-}
-
-@media screen and (min-width: 950px) {
-  .display__main {
-    font-size: var(--big-font-size);
   }
 }
 

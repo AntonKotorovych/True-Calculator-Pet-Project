@@ -3,7 +3,7 @@ button {
   height: 100%;
   border-radius: 0.5rem;
   border-style: none;
-  font-size: var(--medium-font-size);
+  font-size: var(--keyboard-font-size);
   user-select: none;
   cursor: pointer;
   outline: none;

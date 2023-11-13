@@ -1,8 +1,7 @@
 'use strict';
 
-// БАГ С ТОЧКОЙ ИСПРАВИТЬ после equal можно ставить две точки
-
 // general displayed string
+const displaySection = document.querySelector('.display-section');
 const displayMain = document.getElementById('displayMain');
 
 // lists and variables of button elements
@@ -62,13 +61,17 @@ document.addEventListener('mouseup', () => {
 // ---- Main Logic ----:
 
 // General logic variables
+
+const minFontSizeInRem = 1.5;
+const maxFontSizeInRem = 3.5;
+let currentFontSizeInRem = 3.5;
+
 let displayValue = '0';
 let isDot = false;
 let isResultEqual = false;
 let hasFirstOperandAfterEqual = false;
 let hasFirstOperatorAfterEqual = false;
 const operators = ['+', '-', '×', '÷'];
-
 displayMain.textContent = displayValue;
 
 // Numbers handler function
@@ -265,10 +268,35 @@ function initialValidation(value) {
   isValidationReturned = false;
 }
 
+// Reduce Font Size function
+
+function reduceFontSize() {
+  const currentDisplayMainWidth = displayMain.offsetWidth;
+  const currentDisplaySectionWidth = displaySection.offsetWidth;
+
+  if (currentFontSizeInRem > minFontSizeInRem && currentDisplayMainWidth > currentDisplaySectionWidth) {
+    currentFontSizeInRem -= 0.5;
+    displayMain.style.fontSize = `${currentFontSizeInRem}rem`;
+  }
+}
+
+// increase Font Size function
+
+function increaseFontSize() {
+  const currentDisplayMainWidth = displayMain.offsetWidth;
+  const currentDisplaySectionWidth = displaySection.offsetWidth;
+
+  if (currentFontSizeInRem < maxFontSizeInRem && currentDisplayMainWidth + 48 < currentDisplaySectionWidth) {
+    currentFontSizeInRem += 0.5;
+    displayMain.style.fontSize = `${currentFontSizeInRem}rem`;
+  }
+}
+
 // -- KEYBOARD LOGIC --
 
 document.addEventListener('keyup', event => {
   // VALIDATION CHECK
+
   initialValidation(event.key);
   if (isValidationReturned) return;
 
@@ -281,18 +309,21 @@ document.addEventListener('keyup', event => {
   // BACKSPACE
   if (event.key === BACKSPACE.value) {
     backspaceHandler();
+    increaseFontSize();
     return;
   }
 
   // CLEAR
   if (event.key === CLEAR.value) {
     clearHandler();
+    increaseFontSize();
     return;
   }
 
   // EQUAL
   if (event.key === EQUAL.value) {
     equalHandler();
+    increaseFontSize();
     return;
   }
 
@@ -302,6 +333,7 @@ document.addEventListener('keyup', event => {
 
   if (currentNumber) {
     numbersHandler(currentNumber);
+    reduceFontSize();
     return;
   }
 
@@ -311,6 +343,7 @@ document.addEventListener('keyup', event => {
 
   if (currentOperator) {
     operatorsHandler(currentOperator);
+    reduceFontSize();
     return;
   }
 });
@@ -340,12 +373,14 @@ document.addEventListener('mouseup', () => {
   // BACKSPACE
   if (currentClickedButton.value === BACKSPACE.value) {
     backspaceHandler();
+    increaseFontSize();
     return;
   }
 
   // CLEAR
   if (currentClickedButton.value === CLEAR.value) {
     clearHandler();
+    increaseFontSize;
     return;
   }
 
@@ -361,6 +396,7 @@ document.addEventListener('mouseup', () => {
 
   if (currentNumber) {
     numbersHandler(currentNumber);
+    reduceFontSize();
     return;
   }
 
@@ -370,6 +406,7 @@ document.addEventListener('mouseup', () => {
 
   if (currentOperator) {
     operatorsHandler(currentOperator);
+    reduceFontSize();
     return;
   }
 });
