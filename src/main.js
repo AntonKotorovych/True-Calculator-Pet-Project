@@ -17,6 +17,12 @@ const CLEAR = document.querySelector('[data-component-type="clear"]');
 
 const EQUAL = document.querySelector('[data-component-type="enter"]');
 
+// default font-size function
+
+function defaultDisplayFontSize() {
+  displayMain.style.fontSize = '3.5rem';
+}
+
 // Rendering click animation functions and listeners
 function pressButtonStyle(element) {
   element.classList.add('button--clicked');
@@ -64,7 +70,6 @@ document.addEventListener('mouseup', () => {
 
 // General logic variables
 const defaultFontSize = 16;
-const minFontSizeInRem = 1.5;
 const maxFontSizeInRem = 3.5;
 
 let displayValue = '0';
@@ -77,14 +82,17 @@ displayMain.textContent = displayValue;
 
 // Numbers handler function
 function numbersHandler(element) {
-  if (isResultEqual) hasFirstOperandAfterEqual = true;
+  if (isResultEqual) {
+    hasFirstOperandAfterEqual = true;
+  }
+  if (isResultEqual && hasFirstOperandAfterEqual && element.value !== '.') {
+    isResultEqual = false;
+    displayValue = '';
+    defaultDisplayFontSize();
+  }
   if (isResultEqual && !displayValue.includes('.')) {
     isResultEqual = false;
     isDot = true;
-  }
-  if (isResultEqual && hasFirstOperandAfterEqual) {
-    isResultEqual = false;
-    displayValue = '';
   }
 
   if (displayValue === '0' && element.value !== '.') displayValue = '';
@@ -141,6 +149,7 @@ function clearHandler() {
   hasFirstOperandAfterEqual = false;
   hasFirstOperatorAfterEqual = false;
 
+  defaultDisplayFontSize();
   displayValue = '0';
   displayMain.textContent = displayValue;
 }
@@ -275,8 +284,6 @@ function changeFontSize() {
 
   const currentFontSizeInRem = parseFloat(window.getComputedStyle(displayMain).fontSize) / defaultFontSize;
 
-  console.log(currentFontSizeInRem);
-
   if (displayContainerWidth + 8 > displaySectionWidth) {
     displayMain.style.fontSize = `${currentFontSizeInRem - 0.2}rem`;
   }
@@ -293,7 +300,6 @@ document.addEventListener('keyup', event => {
   // VALIDATION CHECK
 
   initialValidation(event.key);
-  changeFontSize();
   if (isValidationReturned) return;
 
   // MAX LENGTH
@@ -369,18 +375,21 @@ document.addEventListener('mouseup', () => {
   // BACKSPACE
   if (currentClickedButton.value === BACKSPACE.value) {
     backspaceHandler();
+    changeFontSize();
     return;
   }
 
   // CLEAR
   if (currentClickedButton.value === CLEAR.value) {
     clearHandler();
+    changeFontSize();
     return;
   }
 
   // EQUAL
   if (currentClickedButton.value === EQUAL.value) {
     equalHandler();
+    changeFontSize();
     return;
   }
 
@@ -390,6 +399,7 @@ document.addEventListener('mouseup', () => {
 
   if (currentNumber) {
     numbersHandler(currentNumber);
+    changeFontSize();
     return;
   }
 
@@ -399,6 +409,7 @@ document.addEventListener('mouseup', () => {
 
   if (currentOperator) {
     operatorsHandler(currentOperator);
+    changeFontSize();
     return;
   }
 });
