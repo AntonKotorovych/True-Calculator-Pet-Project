@@ -277,12 +277,14 @@ function changeFontSize() {
 
   console.log(currentFontSizeInRem);
 
-  if (displayContainerWidth > displaySectionWidth) {
-    displayMain.style.fontSize = `${currentFontSizeInRem - 0.3}rem`;
+  if (displayContainerWidth + 8 > displaySectionWidth) {
+    displayMain.style.fontSize = `${currentFontSizeInRem - 0.2}rem`;
   }
 
-  // minFontSizeInRem;
-  // maxFontSizeInRem;
+  if (displayContainerWidth + 8 < displaySectionWidth && currentFontSizeInRem < maxFontSizeInRem) {
+    if (displayValue.length > 15) return;
+    displayMain.style.fontSize = `${currentFontSizeInRem + 0.2}rem`;
+  }
 }
 
 // -- KEYBOARD LOGIC --
@@ -291,10 +293,11 @@ document.addEventListener('keyup', event => {
   // VALIDATION CHECK
 
   initialValidation(event.key);
+  changeFontSize();
   if (isValidationReturned) return;
 
   // MAX LENGTH
-  if (displayValue.length >= 24) {
+  if (displayValue.length >= 24 && event.key !== 'Backspace' && event.key !== 'c') {
     checkMaxLength();
     return;
   }
@@ -302,18 +305,21 @@ document.addEventListener('keyup', event => {
   // BACKSPACE
   if (event.key === BACKSPACE.value) {
     backspaceHandler();
+    changeFontSize();
     return;
   }
 
   // CLEAR
   if (event.key === CLEAR.value) {
     clearHandler();
+    changeFontSize();
     return;
   }
 
   // EQUAL
   if (event.key === EQUAL.value) {
     equalHandler();
+    changeFontSize();
     return;
   }
 
@@ -355,7 +361,7 @@ document.addEventListener('mouseup', () => {
   if (isValidationReturned) return;
 
   // MAX LENGTH
-  if (displayValue.length >= 24) {
+  if (displayValue.length >= 24 && currentClickedButton.value !== 'Backspace' && currentClickedButton.value !== 'c') {
     checkMaxLength();
     return;
   }
