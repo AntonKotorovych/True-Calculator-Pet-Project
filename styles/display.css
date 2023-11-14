@@ -16,4 +16,5 @@
 .display__main {
   font-size: var(--display-font-size);
   user-select: none;
+  white-space: nowrap;
 }
